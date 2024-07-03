@@ -1,10 +1,9 @@
-
-import SearchApp from "./App";
 import ReactDOM from "react-dom/client";
-import React from "react";
+import SearchApp from "./App";
+import "./index.css";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <SearchApp />
-  </React.StrictMode>,
-);
+const rootElement = document.getElementById("root");
+
+const root = ReactDOM.createRoot(rootElement);
+
+root.render(<SearchApp />);
