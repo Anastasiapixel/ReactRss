@@ -3,15 +3,12 @@ import { Forms, PersonType } from "./components/forms";
 import { Result } from "./components/result";
 
 
-type AppType = {
+interface AppType {
   getPeople: (name: string) => Promise<{ results: PersonType[] }>;
   callbackResults: (value: string[]) => void;
   names: string[];
   results: string[];
   name: string;
-  birth_year: string;
-  data: string;
-
 }
 const getPeople: AppType["getPeople"] = async (name: string): Promise<{ results: PersonType[]; }> => {
   const response = await fetch(
@@ -20,7 +17,7 @@ const getPeople: AppType["getPeople"] = async (name: string): Promise<{ results:
   const data = await response.json();
   return data;
 };
-const SearchApp : React.FC<AppType> = () => {
+export const SearchApp = () => {
 const [results, setResults] = useState<PersonType[]>([]);
 const names = useCallback(() => {}, []);
 

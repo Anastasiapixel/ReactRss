@@ -1,9 +1,13 @@
-import { useState, useEffect, ChangeEvent } from "react";
-import { flushSync } from "react-dom";
+import { useState, useEffect, ChangeEvent, useCallback } from "react";
 
 export interface PersonType {
   name: string;
   birth_year: string;
+}
+
+interface FormState {
+  name: string;
+  results: PersonType[];
 }
 
 interface PropsType {
@@ -12,28 +16,31 @@ interface PropsType {
   callbackResults: (results: PersonType[]) => void;
 }
 
-export const Forms = (props: PropsType) => {
+export const Forms = (
+  props: PropsType,
+  callbackResults: (results: PersonType[]) => void,
+) => {
   const [name, setName] = useState<string>("");
   const [results, setResults] = useState<PersonType[]>([]);
-
+  const [state] = useState<FormState>({
+    name: "",
+    results: [],
+  });
   const onUpdateSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setName(name);
   };
 
-  const onUpdateStorage = async () => {
+  const onUpdateStorage = useCallback(async () => {
     localStorage.setItem("name", name);
     const characters = await props.getPeople(name);
+    setResults(characters.results);
 
-    flushSync(() => {
-      setResults(characters.results);
-    });
-
-    const names = results.map((person) => person.name);
-    const date = results.map((person) => person.birth_year);
+    const names = characters.results.map((person) => person.name);
+    const date = characters.results.map((person) => person.birth_year);
     console.log(date);
     console.log(names);
-  };
+  }, [name, props]);
 
   const handleClick = () => {
     setResults(props.results);
@@ -42,17 +49,29 @@ export const Forms = (props: PropsType) => {
   };
 
   useEffect(() => {
-    onUpdateStorage();
-  }, []);
-
-  useEffect(() => {
-    if (
-      results !== props.results ||
-      props.callbackResults !== props.callbackResults
-    ) {
+    if (state.results.length === results.length) {
+      callbackResults(results);
       onUpdateStorage();
     }
-  }, [props, results]);
+  }, [
+    callbackResults,
+    onUpdateStorage,
+    props,
+    props.results,
+    results,
+    state.results,
+  ]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setResults(props.results);
+      await onUpdateStorage();
+      props.callbackResults(results);
+      console.log(results);
+    };
+
+    fetchData();
+  });
 
   return (
     <div className="search">
@@ -61,5 +80,3 @@ export const Forms = (props: PropsType) => {
     </div>
   );
 };
-
-
