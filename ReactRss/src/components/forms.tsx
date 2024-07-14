@@ -1,65 +1,65 @@
-import { Component } from 'react'
-import { flushSync } from 'react-dom';
+import { useState, useEffect, ChangeEvent } from "react";
+import { flushSync } from "react-dom";
 
+export interface PersonType {
+  name: string;
+  birth_year: string;
+}
 
-export class Forms extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      results: [],
+interface PropsType {
+  getPeople: (name: string) => Promise<{ results: PersonType[] }>;
+  results: PersonType[];
+  callbackResults: (results: PersonType[]) => void;
+}
 
-    };
-  }
-  onUpdateSearch = (e) => {
+export const Forms = (props: PropsType) => {
+  const [name, setName] = useState<string>("");
+  const [results, setResults] = useState<PersonType[]>([]);
+
+  const onUpdateSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
-    this.setState({ name });
+    setName(name);
   };
-  onUpdateStorage = async () => {
-    localStorage.setItem("name", this.state.name);
-    const characters = await this.props.getPeople(this.state.name);
+
+  const onUpdateStorage = async () => {
+    localStorage.setItem("name", name);
+    const characters = await props.getPeople(name);
 
     flushSync(() => {
-      this.setState({ results: characters.results });
+      setResults(characters.results);
     });
- 
-    const names = this.state.results.map((person) => person.name);
-    const date = this.state.results.map((person) => person.birth_year);
+
+    const names = results.map((person) => person.name);
+    const date = results.map((person) => person.birth_year);
     console.log(date);
     console.log(names);
   };
 
-
-  handleClick =  () => {
-    this.setState({ results: this.props.results });
-    this.onUpdateStorage();
-    this.props.callbackResults(this.state.results);
+  const handleClick = () => {
+    setResults(props.results);
+    onUpdateStorage();
+    props.callbackResults(results);
   };
 
-  async componentDidMount() {
-   await this.onUpdateStorage();
-    this.setState({ results: this.props.results });
-    this.props.callbackResults(this.state.results);
-  }
+  useEffect(() => {
+    onUpdateStorage();
+  }, []);
 
-  componentDidUpdate(prevProps, prevState) {
+  useEffect(() => {
     if (
-      this.state.results == prevState.results ||
-      this.props.callbackResults !== prevProps.callbackResults
+      results !== props.results ||
+      props.callbackResults !== props.callbackResults
     ) {
-      this.onUpdateStorage();
-      
-      
+      onUpdateStorage();
     }
-  }
+  }, [props, results]);
 
-  render() {
-    return (
-      <div className="search">
-        <input onChange={this.onUpdateSearch} type="text" name="" id="" />
-        <button onClick={this.handleClick}>Search</button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="search">
+      <input onChange={onUpdateSearch} type="text" />
+      <button onClick={handleClick}>Search</button>
+    </div>
+  );
+};
+
 

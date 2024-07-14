@@ -1,6 +1,7 @@
 type ResultProps = {
   names: string[];
   date: string[];
+
 };
 
 export const Result: React.FC<ResultProps> = ({ names, date }) => (
@@ -12,7 +13,5 @@ export const Result: React.FC<ResultProps> = ({ names, date }) => (
       </div>)
     )}
       </div>
-
-
     )
 
