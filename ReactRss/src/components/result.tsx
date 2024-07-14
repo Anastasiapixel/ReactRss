@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import { Component } from "react";
 
 
 export class Result extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      name: [],
       results: [],
-      names: [],
-      date: [],
+      names: () => {},
+      date: () => {},
     };
   }
 

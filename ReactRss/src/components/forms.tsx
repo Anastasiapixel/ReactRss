@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { flushSync } from 'react-dom';
+
 
 export class Forms extends Component {
   constructor(props) {
