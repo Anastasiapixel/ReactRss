@@ -28,8 +28,4 @@ const root = ReactDOM.createRoot(rootElement);
 //   }
 // }
 
-root.render(
-<SearchApp />
-);
-  
-}
+root.render(<SearchApp />);}
