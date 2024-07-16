@@ -1,16 +1,11 @@
-import { PersonType } from "./forms";
 
 type ResultProps = {
   names: string[];
   date: string[];
 };
-export interface PropsType {
-  getPeople: (name: string) => Promise<{ results: PersonType[] }>;
-  results: PersonType[];
-  callbackResults: (results: PersonType[]) => void;
-}
 
-export const Result: React.FC<ResultProps & PropsType> = ({ names, date }) => (
+
+export const Result: React.FC<ResultProps> = ({ names, date }) => (
   
   
   <div className="resultblock">

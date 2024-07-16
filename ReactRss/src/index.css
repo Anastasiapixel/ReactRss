@@ -77,3 +77,10 @@ input{
   height: 100%;
   width: 100%;
 }
+.error{
+width: 100vw;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+}

@@ -19,14 +19,14 @@ const getPeople: AppType["getPeople"] = async (name: string): Promise<{ results:
 };
 export const SearchApp = () => {
 const [results, setResults] = useState<PersonType[]>([]);
-const names = useCallback(() => {}, []);
 
 const callbackResults = useCallback((value: PersonType[]) => {
   setResults(value);
-  console.log(names);
-}, [names]);
+
+}, []);
 
     return (
+      
       <div className="block">
         <div className="first">
           <Forms getPeople={getPeople} callbackResults={callbackResults} results={[]} />

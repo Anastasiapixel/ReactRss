@@ -1,13 +1,8 @@
-import { useState, useEffect, ChangeEvent, useCallback, useLayoutEffect } from "react";
+import { useState, useEffect, ChangeEvent, useCallback, useLayoutEffect, MouseEventHandler } from "react";
 
 export interface PersonType {
   name: string;
   birth_year: string;
-}
-
-interface FormState {
-  name: string;
-  results: PersonType[];
 }
 
 interface PropsType {
@@ -16,16 +11,19 @@ interface PropsType {
   callbackResults: (results: PersonType[]) => void;
 }
 
+interface ErrorType {
+  error: Error;
+  setError: () => boolean;
+  errors: () => boolean;
+}
+
 export const Forms = (
-  props: PropsType,
-  callbackResults: (results: PersonType[]) => void,
+  props: PropsType
 ) => {
   const [name, setName] = useState<string>("");
   const [results, setResults] = useState<PersonType[]>([]);
-  const [state, setState] = useState<FormState>({
-    name: "",
-    results: [],
-  });
+  const [error, setError] = useState<ErrorType | boolean>(false);
+
   const onUpdateSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setName(name);
@@ -47,39 +45,32 @@ export const Forms = (
       console.log("clean");
       props.callbackResults(results);
       setResults(results);
-    } else {
-      console.log(results.length);
-      console.log("not clean");
     }
-  }, []);
+  }, [onUpdateStorage, props, results]);
   useLayoutEffect(() => {
-
-          console.log("clean");
           props.callbackResults(results);
           setResults(results);
-  }, [results]);
+  }, [props, results]);
   const handleClick = () => {
     onUpdateStorage();
     setResults(results);
     props.callbackResults(results);
   };
+const errorMessage: MouseEventHandler<HTMLButtonElement> | boolean = () => {
+setError(true);
+
+}
 
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setResults(props.results);
-  //     await onUpdateStorage();
-  //     props.callbackResults(results);
-  //     console.log(results);
-  //   };
-
-  //   fetchData();
-  // });
-
+if (error === true) {
+  throw new Error("Error");
+}
   return (
+    
     <div className="search">
       <input onChange={onUpdateSearch} type="text" />
       <button onClick={handleClick}>Search</button>
+      <button onClick={errorMessage}>Error's button</button>
     </div>
   );
 };
