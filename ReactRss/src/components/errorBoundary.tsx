@@ -1,8 +1,11 @@
 import { Component, ErrorInfo } from 'react'
 
+
 interface ErrorBoundaryProps {
   children: JSX.Element;
 }
+
+
 class ErrorBoundary extends Component<ErrorBoundaryProps> {
   state = {
     errorMessage: "",
@@ -15,13 +18,17 @@ class ErrorBoundary extends Component<ErrorBoundaryProps> {
   }
 
   componentDidCatch(
-    error: Error
+    error: Error,
+
   ) {
     console.log(error);
-    // console.log(errorInfo);
   }
 
-  logErrorToMyService: (error: Error, errorInfo: ErrorInfo) => void = () => {};
+  logErrorToMyService: (
+    error: Error,
+    errorInfo: ErrorInfo,
+
+  ) => void = () => {};
 
   render() {
     if (this.state.errorMessage) {
