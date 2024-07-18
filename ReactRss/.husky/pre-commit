@@ -1,2 +1,2 @@
 cd ReactRss
-npm run lint
+npm run lint-staged
