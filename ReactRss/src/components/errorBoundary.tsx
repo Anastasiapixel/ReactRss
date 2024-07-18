@@ -1,14 +1,12 @@
-import { Component, ErrorInfo } from 'react'
-
+import { Component, ErrorInfo } from 'react';
 
 interface ErrorBoundaryProps {
   children: JSX.Element;
 }
 
-
 class ErrorBoundary extends Component<ErrorBoundaryProps> {
   state = {
-    errorMessage: "",
+    errorMessage: '',
   };
   resetError = () => {
     history.go(0);
@@ -17,18 +15,11 @@ class ErrorBoundary extends Component<ErrorBoundaryProps> {
     return { errorMessage: error.toString() };
   }
 
-  componentDidCatch(
-    error: Error,
-
-  ) {
+  componentDidCatch(error: Error) {
     console.log(error);
   }
 
-  logErrorToMyService: (
-    error: Error,
-    errorInfo: ErrorInfo,
-
-  ) => void = () => {};
+  logErrorToMyService: (error: Error, errorInfo: ErrorInfo) => void = () => {};
 
   render() {
     if (this.state.errorMessage) {
@@ -42,5 +33,4 @@ class ErrorBoundary extends Component<ErrorBoundaryProps> {
     return this.props.children;
   }
 }
-export default ErrorBoundary
-
+export default ErrorBoundary;
