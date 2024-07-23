@@ -11,21 +11,21 @@ export interface AppType {
   setLoaderResult: (isLoad: boolean) => void;
   isLoad: boolean;
 }
+
 const getPeople: AppType['getPeople'] = async (
   name: string,
 ): Promise<{ results: PersonType[] }> => {
   const response = await fetch(
-    `https://swapi.dev/api/people/?search=${name}&format=json`,
+    `https://swapi.dev/api/people/?page=1&search=${name}&format=json`,
   );
   const data = await response.json();
   return data;
 };
 export const SearchApp = () => {
-  const [results, setResults] = useState<PersonType[]>([]);
   const callbackResults = useCallback((value: PersonType[]) => {
     setResults(value);
   }, []);
-
+  const [results, setResults] = useState<PersonType[]>([]);
   const [loaderResult, setLoaderResult] = useState<AppType['isLoad']>(false);
   (isload: AppType['isLoad']) => {
     setLoaderResult(isload);
@@ -35,10 +35,10 @@ export const SearchApp = () => {
     <div className="block">
       <div className="first">
         <Forms
-          loaderResult={setLoaderResult}
           getPeople={getPeople}
           callbackResults={callbackResults}
-          results={[]}
+          results={results}
+          loaderResult={setLoaderResult}
         />
       </div>
       <div className="second">
