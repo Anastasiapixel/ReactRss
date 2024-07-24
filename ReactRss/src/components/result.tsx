@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 
 type ResultProps = {
   names: string[];
@@ -6,8 +7,10 @@ type ResultProps = {
 };
 
 export const Result: React.FC<ResultProps> = ({ names, date }) => {
+    const [searchParams] = useSearchParams();
   return (
     <>
+    <Link to={`/?name=${searchParams.get('name')}`} className={'link'} />
       <div className="resultblock">
         {names.map((name, index) => (
           <div key={index}>

@@ -112,3 +112,13 @@ input {
   transition: 0.5s cubic-bezier(0.45, 0.05, 0.55, 0.95);
   backdrop-filter: blur(11px);
 }
+.errors,
+.error {
+flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
