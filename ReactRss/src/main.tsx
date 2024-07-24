@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom/client';
-import SearchApp from './App';
 import ErrorBoundary from './components/errorBoundary';
 import './index.css';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './components/router';
 
 const rootElement = document.getElementById('root');
 
@@ -11,7 +12,7 @@ if (rootElement) {
   root.render(
     <>
       <ErrorBoundary>
-        <SearchApp />
+        <RouterProvider router={router} />
       </ErrorBoundary>
     </>,
   );
